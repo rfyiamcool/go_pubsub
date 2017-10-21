@@ -163,6 +163,15 @@ func (r *IntReply) WriteTo(w io.Writer) (int64, error) {
 	return int64(n), err
 }
 
+// type StringReply struct {
+// 	str string
+// }
+
+// func (r *StringReply) WriteTo(w io.Writer) (string, error) {
+// 	n, err := w.Write([]byte(":" + r.str + "\r\n"))
+// 	return string(n), err
+// }
+
 type BulkReply struct {
 	value []byte
 }

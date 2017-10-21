@@ -1,8 +1,8 @@
 package server
 
 import (
-	"fmt"
 	"database/sql"
+	"fmt"
 	"net"
 	"runtime"
 	"sync"
@@ -11,14 +11,14 @@ import (
 )
 
 const (
-	KeyRecordTableName         = "__idgo__"
+	KeyRecordTableName = "__idgo__"
 )
 
 type Server struct {
 	cfg *config.Config
 
-	listener        net.Listener
-	db              *sql.DB
+	listener net.Listener
+	db       *sql.DB
 	//keyGeneratorMap map[string]*MySQLIdGenerator
 	sync.RWMutex
 	running bool
@@ -93,12 +93,10 @@ func (s *Server) onConn(conn net.Conn) error {
 
 func (s *Server) ServeRequest(request *Request) Reply {
 	switch request.Command {
-	case "GET":
-		return s.handleGet(request)
-	case "SET":
-		return s.handleSet(request)
-	case "EXISTS":
-		return s.handleExists(request)
+	case "PUBLISH":
+		return s.handlePub(request)
+	case "SUBSCRIBE":
+		return s.handleSub(request)
 	case "DEL":
 		return s.handleDel(request)
 	case "SELECT":

@@ -4,21 +4,21 @@ import (
 	"sync"
 )
 
-type Queue struct {
-	QueueMap map[string](chan *string)
-	Lock     *sync.RWMutex
+type QueueMem struct {
 	Size     int
+	Lock     *sync.RWMutex
+	QueueMap map[string](chan *string)
 }
 
-func NewTopic(size int) *Queue {
-	return &Queue{
+func NewQueue(size int) *QueueMem {
+	return &QueueMem{
 		QueueMap: map[string](chan *string){},
 		Lock:     new(sync.RWMutex),
 		Size:     size,
 	}
 }
 
-func (q *Queue) InitTopic(topic string) chan *string {
+func (q *QueueMem) InitTopic(topic string) chan *string {
 	q.Lock.Lock()
 	defer q.Lock.Unlock()
 
@@ -30,13 +30,13 @@ func (q *Queue) InitTopic(topic string) chan *string {
 	return v
 }
 
-func (q *Queue) Pub(topic string, body *string) bool {
+func (q *QueueMem) Pub(topic string, body *string) bool {
 	c := q.InitTopic(topic)
 	c <- body
 	return true
 }
 
-func (q *Queue) Sub(topic string) *string {
+func (q *QueueMem) Sub(topic string) *string {
 	c := q.InitTopic(topic)
 	return <-c
 }

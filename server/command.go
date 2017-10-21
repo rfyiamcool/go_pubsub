@@ -1,14 +1,44 @@
 package server
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func (s *Server) handleGet(r *Request) Reply {
+var (
+	Queue = NewQueue(10000)
+)
+
+func (s *Server) handlePub(r *Request) Reply {
+	var topic string
+	var body string
+
 	if r.HasArgument(0) == false {
 		return ErrNotEnoughArgs
 	}
 
+	topic = string(r.Arguments[0])
+	body = string(r.Arguments[1])
+
+	Queue.Pub(topic, &body)
+
 	return &StatusReply{
 		code: "OK",
+	}
+}
+
+func (s *Server) handleSub(r *Request) Reply {
+	var topic string
+	var body *string
+
+	if r.HasArgument(0) == false {
+		return ErrNotEnoughArgs
+	}
+
+	topic = string(r.Arguments[0])
+	body = Queue.Sub(topic)
+
+	return &StatusReply{
+		code: *body,
 	}
 }
 
@@ -19,6 +49,7 @@ func (s *Server) handleSet(r *Request) Reply {
 	if r.HasArgument(0) == false {
 		return ErrNotEnoughArgs
 	}
+
 	return &StatusReply{
 		code: "OK",
 	}
