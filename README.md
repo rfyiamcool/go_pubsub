@@ -1,6 +1,8 @@
 # go_pubsub
 
-go_pubsub 是基于redis协议实现的pubsub服务端. 由于兼容redis protocol, 可直接使用redis client及sdk操作.
+go_pubsub 是基于redis protocol 实现的pubsub服务端. 兼容常见的redis client及sdk. 使用方法和设计原理跟go nsq 很像...
+
+![设计图](doc/go_pubsub.png)
 
 `to do list:`
 
