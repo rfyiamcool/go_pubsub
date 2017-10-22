@@ -7,6 +7,12 @@ go_pubsub 是基于redis协议实现的pubsub服务端. 由于兼容redis protoc
 * 持久化
 * 丰富增删改查
 
+## 依赖包:
+
+```
+go get github.com/BurntSushi/toml
+```
+
 ## 演示:
 
 `server:`
