@@ -19,9 +19,19 @@ go run cmd/main.go
 
 ```
 [gopy@xiaorui ~ ]$ redis-cli -p 9999
+
+# 添加topic
+127.0.0.1:9999> create topic xiaorui.cc
+
+# 绑定topic和queue_name的关系
+127.0.0.1:9999> bind xiaorui.cc queue1
+
+# 给topic为xiaorui.cc发送 hello 信息
 127.0.0.1:9999> PUBLISH xiaorui.cc hello
 OK
-127.0.0.1:9999> SUBSCRIBE xiaorui.cc
+
+# 接收信息
+127.0.0.1:9999> SUBSCRIBE xiaorui.cc queue1
 Reading messages... (press Ctrl-C to quit)
 hello
 ```

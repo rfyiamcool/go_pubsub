@@ -93,6 +93,10 @@ func (s *Server) onConn(conn net.Conn) error {
 
 func (s *Server) ServeRequest(request *Request) Reply {
 	switch request.Command {
+	case "CREATE":
+		return s.handleCreate(request)
+	case "BIND":
+		return s.handleBind(request)
 	case "PUBLISH":
 		return s.handlePub(request)
 	case "SUBSCRIBE":
