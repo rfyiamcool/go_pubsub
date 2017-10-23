@@ -35,6 +35,8 @@ func main() {
 		return
 	}
 
+	server.GlobalConf = cfg
+
 	//when the log file size greater than 1GB, kingtask will generate a new file
 	if len(cfg.LogPath) != 0 {
 	}

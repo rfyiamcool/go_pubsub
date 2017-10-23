@@ -6,15 +6,15 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+var (
+	cfg *Config
+)
+
 type Config struct {
 	Addr     string `toml:"addr"`
 	LogPath  string `toml:"log_path"`
 	LogLevel string `toml:"log_level"`
-}
-
-type DBConfig struct {
 	Password string `toml:"password"`
-	DBName   string `toml:"db_name"`
 }
 
 func ParseConfigFile(fileName string) (*Config, error) {
