@@ -6,14 +6,34 @@ var (
 	TopicQueueHandler = NewTopicPool(10000)
 )
 
-func (s *Server) handleCreate(r *Request) Reply {
-	var topic string
-
-	topic = string(r.Arguments[1])
+func (s *Server) handleAuth(r *Request) Reply {
+	var pw string
 
 	if r.HasArgument(0) == false {
 		return ErrNotEnoughArgs
 	}
+
+	pw = string(r.Arguments[0])
+
+	if pw == GlobalConf.Password {
+		return &StatusReply{
+			code: "OK",
+		}
+	}
+
+	return &StatusReply{
+		code: "ERROR",
+	}
+}
+
+func (s *Server) handleCreate(r *Request) Reply {
+	var topic string
+
+	if r.HasArgument(0) == false {
+		return ErrNotEnoughArgs
+	}
+
+	topic = string(r.Arguments[1])
 	TopicQueueHandler.CreateTopic(topic)
 
 	return &StatusReply{
@@ -25,12 +45,12 @@ func (s *Server) handleBind(r *Request) Reply {
 	var topic string
 	var qname string
 
-	topic = string(r.Arguments[0])
-	qname = string(r.Arguments[1])
-
 	if r.HasArgument(0) == false {
 		return ErrNotEnoughArgs
 	}
+
+	topic = string(r.Arguments[0])
+	qname = string(r.Arguments[1])
 	TopicQueueHandler.Bind(topic, qname)
 
 	return &StatusReply{

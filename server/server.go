@@ -10,8 +10,8 @@ import (
 	"github.com/rfyiamcool/go_pubsub/config"
 )
 
-const (
-	KeyRecordTableName = "__idgo__"
+var (
+	GlobalConf *config.Config
 )
 
 type Server struct {
@@ -19,7 +19,6 @@ type Server struct {
 
 	listener net.Listener
 	db       *sql.DB
-	//keyGeneratorMap map[string]*MySQLIdGenerator
 	sync.RWMutex
 	running bool
 }
@@ -93,6 +92,8 @@ func (s *Server) onConn(conn net.Conn) error {
 
 func (s *Server) ServeRequest(request *Request) Reply {
 	switch request.Command {
+	case "AUTH":
+		return s.handleAuth(request)
 	case "CREATE":
 		return s.handleCreate(request)
 	case "BIND":
