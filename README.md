@@ -28,6 +28,9 @@ go run cmd/main.go
 ```
 [gopy@xiaorui ~ ]$ redis-cli -p 9999
 
+# AUTH
+127.0.0.1:9999> auth your_password
+
 # 添加topic
 127.0.0.1:9999> create topic xiaorui.cc
 
